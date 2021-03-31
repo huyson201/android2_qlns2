@@ -3,6 +3,9 @@ package tdc.edu.vn.quanlynhansu;
 import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import tdc.edu.vn.quanlynhansu.adapters.PersonAdapter;
+import tdc.edu.vn.quanlynhansu.adapters.RecyclerViewAdapter;
 import tdc.edu.vn.quanlynhansu.data_models.Person;
 import tdc.edu.vn.quanlynhansu.database_layer.PersonDatabase;
 
@@ -28,7 +32,7 @@ public class QuanLyNhanSuActivity extends AppCompatActivity {
 
     private ArrayList<Person> listMembers = new ArrayList<Person>();
     //private ArrayAdapter<Person> adapter;
-    private PersonAdapter adapter;
+    private RecyclerViewAdapter adapter;
     private PersonDatabase DAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +47,18 @@ public class QuanLyNhanSuActivity extends AppCompatActivity {
         final CheckBox chkRead = (CheckBox) findViewById(R.id.chkRead);
         final CheckBox chkTravel = (CheckBox) findViewById(R.id.chkTravel);
         final EditText edtHoppies = (EditText) findViewById(R.id.edtHobbies);
-        ListView listView = (ListView) findViewById(R.id.listPerson);
+        RecyclerView listView = (RecyclerView) findViewById(R.id.listPerson);
         Button btnAdd = (Button) findViewById(R.id.btnAdd);
         Button btnCancel = (Button) findViewById(R.id.btnCancel);
 
         //Events processing
         //adapter = new ArrayAdapter<Person>(this, android.R.layout.simple_list_item_1, listMembers);
         DAO.getPersons(listMembers);
-        adapter = new PersonAdapter(this, R.layout.listview_item, listMembers);
+
+        adapter = new RecyclerViewAdapter(this, R.layout.listview_item, listMembers);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        listView.setLayoutManager(linearLayoutManager);
         listView.setAdapter(adapter);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
