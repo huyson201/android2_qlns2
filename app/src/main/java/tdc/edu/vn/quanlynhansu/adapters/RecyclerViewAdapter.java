@@ -42,7 +42,7 @@ public class RecyclerViewAdapter extends  RecyclerView.Adapter<RecyclerViewAdapt
         Person person = persons.get(i);
         viewHolder.setPosition(i);
 
-        viewHolder.select.setChecked(false);
+        if(!person.getCheck()) viewHolder.select.setChecked(false);
 
         // Fill data from the person to the view
         if (person.getDegree().equalsIgnoreCase(QuanLyNhanSuActivity.CAODANG)) {
